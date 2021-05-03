@@ -1,48 +1,66 @@
 # Fetch
 
-## Objectives:
+## Pseudo-code Plan:
 
-- To fetch from an API.
-- To use async and await correctly.
-- To return the necesary information from a request using object manipulation.
+### handleSearchClick function
 
-## Syntax:
+take in the search parameters
+Already have the query (food)
 
-- [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
-- [Async / await](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)
-- [.JSON()](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON)
+9 recipes
+call buildResultsList function
 
-## Making A Recipe Generator
+### displaySingleRecipe
 
-Your task over the next couple of weeks is to create a recipe generator by fetching from an API. We have written some instructions to help you, but feel free to expand on these and add any additional features you would like in order to create the best application you can.
+function needs to take in event object as a parameter
+event object will be undefined if not passsed in
+if event object is undefined, send an api request for a random recipe (call recipeOfTheDay function)
+if event object is truthy, send an api with the r = uri in the search query string
+create a header container element (div/section)
+create an image from the recipe data
+create title element
+create all data elements (author - in mealtype.source, rating, information e.g. time, difficulty, servings, lunch etc)
+create nutritional information elements (e.g. cals, fat etc)
+create ingredient li's from the array (loop through)
+append the elements to the header container
 
-Sign up to the free tier of the Edamam API [here](https://developer.edamam.com/). Click on SIGN UP and select 'Recipe Search'. On the next screen, select the free DEVELOPER tier by clicking START NOW.
+call this at the beginning
 
-Click "Get an API Key Now" in the top menu once signed in. Click the green button on the resulting page to create an application and enter a short name/description (it doesn't matter what). Once you submit this, you are taken to a page with your application ID and key.
+### buildRecipeCard
 
-Make a note of your ID and key and then navigate to the API docs [here](https://developer.edamam.com/edamam-docs-recipe-api) for more information on how to use it.
+function that takes in the recipe item from the looped array method
+create container element
+create title h2 element
+create img element
+create information (yield, cals, meal type, time)
+create button with an onclick to call displaySingleRecipe
+set the dataset attribute to the recipe uri
+Need to know which recipe is being clicked
+append all elements to the container element
+return the container element
 
-To use your API ID and key in the url, just replace ${YOUR_APP_ID} and ${YOUR_APP_KEY} with your information from Edamam:
+### buildResultsList
 
-```
+function takes in recipe object
+reset the container - set displayContainer.innerHTML to empty string
+loop through the hits array
+create container element by calling buildRecipeCard function and saving as a variable
+append variable to the container
 
-const YOUR_APP_ID = "YOUR_APP_ID"
-const YOUR_APP_KEY = "YOUR_APP_KEY"
+### recipeOfTheDay
 
-const requestUrl = `https://api.edamam.com/search?q=kale&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}`
+function that takes in no parameters
+send a request with many keywords and from 0 to 100
+Math.random for random array index in the hits array
+return the recipe
 
-```
+## extras
 
-The above request URL would return recipes containing kale.
-
-Use the fetchRecipe function to make a fetch request to the Edamam API with the food that the function takes in entered as a search query. Use the first recipe from the hits array in the data that you receive.
-
-Use .innerHTML to set the text contained in the a tag with the id #recipe-link to be the recipe label from the data you receive. Then set the href of #recipe-link to be the recipe's url, also from the received data.
-
-Note: We have added some of the code for you already. Please don't change this. You can write your code in fetchRecipe below those. Once you have completed this initial step, see what else you can do...
-
-- Can you add images, ingredients or other information to your page?
-- Can you have more than one recipe appear on the page with the information so people can pick from a selection?
-- Add a CSS file and style your page appropriately.
-
-Take a look at sites like [BBC Good Food](https://www.bbcgoodfood.com/) for inspiration. Explore recipe sites from a user perspective, and think about how you could use the newfound power of APIs, along with your knowledge of creating dynamic websites, to build an experience based on searching for recipes. Collaborate with your pair and team to build something amazing - you don't have to write your code alone!
+extra parameters
+-vegan
+-vegetarian
+-cuisine-type
+-time
+-excluded (allergies - nuts, egg, shellfish)
+store the extra paramters in an object (e.g. vegan: true)
+Either change the url request or loop through a large results array and filter what we want to exclude

@@ -2,11 +2,11 @@ import { APP_ID, APP_KEY } from './config/dev.js';
 
 let foodToSearch = null;
 let button = document.querySelector('#recipe-button');
-button.addEventListener('click', handleRecipeClick);
+button.addEventListener('click', handleSearchClick);
 let input = document.querySelector('#food-input');
 input.addEventListener('change', handleFoodChange);
 
-async function handleRecipeClick() {
+async function handleSearchClick() {
   const recipe = await fetchRecipe(foodToSearch);
   const {
     recipe: { label },
