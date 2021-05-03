@@ -1,9 +1,20 @@
 import { APP_ID, APP_KEY } from './config/dev.js';
 
 let foodToSearch = null;
+let button = document.querySelector('#recipe-button');
+button.addEventListener('click', handleRecipeClick);
+let input = document.querySelector('#food-input');
+input.addEventListener('change', handleFoodChange);
 
-function handleRecipeClick() {
-  fetchRecipe(foodToSearch);
+async function handleRecipeClick() {
+  const recipe = await fetchRecipe(foodToSearch);
+  const {
+    recipe: { label },
+    recipe: { url },
+  } = recipe;
+  let recipeLink = document.querySelector('#recipe-label');
+  recipeLink.innerHTML = label;
+  recipeLink.setAttribute('href', url);
 }
 
 function handleFoodChange() {
@@ -15,5 +26,7 @@ async function fetchRecipe(food) {
   const response = await fetch(requestUrl);
   const jsonResponse = await response.json();
   const recipe = jsonResponse.hits[0];
+  console.log(recipe);
+  return recipe;
 }
 fetchRecipe('potato');
