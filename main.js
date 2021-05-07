@@ -75,10 +75,22 @@ function buildRecipeCard(recipe) {
   dataNodes.forEach((node) => {
     ul.appendChild(node);
   });
-  // let yield = document.createElement('li');
+
+  let button = document.createElement('a');
+  button.innerText = 'See Recipe';
+  button.setAttribute('id', recipe.recipe.uri);
+  button.className = 'btn';
+  button.setAttribute('data-uri', recipe.recipe.uri);
+  button.addEventListener('click', displaySingleRecipe);
 
   card.appendChild(title);
+  card.appendChild(image);
   card.appendChild(ul);
+  card.appendChild(button);
 
   return card;
+}
+
+function displaySingleRecipe(event) {
+  console.log(event);
 }
