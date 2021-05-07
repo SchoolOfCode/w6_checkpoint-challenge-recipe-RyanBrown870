@@ -91,6 +91,12 @@ function buildRecipeCard(recipe) {
   return card;
 }
 
-function displaySingleRecipe(event) {
+async function displaySingleRecipe(event) {
   console.log(event);
+  if (event) {
+    // const requestUrl = `https://api.edamam.com/search?r=${event.target.dataset.uri}&app_id=${APP_ID}&app_key=${APP_KEY}`;
+    // const response = await fetch(requestUrl);
+    // const recipe = await response.json();
+    // console.log(recipe);
+  }
 }
