@@ -117,7 +117,7 @@ async function displaySingleRecipe(event) {
     // get random recipe
     console.log('no event');
   }
-  let article = document.createElement('article');
+
   let image = document.createElement('img');
   image.setAttribute('src', recipe.recipe.image);
   let summaryContainer = document.createElement('section');
@@ -176,43 +176,43 @@ async function displaySingleRecipe(event) {
   let nutritionUl = createNewElement('ul', '', 'nutrition__ul');
   let fat = createNewElement(
     'li',
-    `Fat: ${recipe.recipe.totalNutrients.FAT}`,
+    `Fat: ${recipe.recipe.totalNutrients.FAT.quantity} ${recipe.recipe.totalNutrients.FAT.unit}`,
     'nutrition__ul__item'
   );
 
-  let chocdf = createNewElement(
+  let carbs = createNewElement(
     'li',
-    `Chocdf: ${recipe.recipe.totalNutrients.CHOCDF}`,
+    `Carbs: ${recipe.recipe.totalNutrients.CHOCDF.quantity} ${recipe.recipe.totalNutrients.CHOCDF.unit}`,
     'nutrition__ul__item'
   );
 
-  let procnt = createNewElement(
+  let protein = createNewElement(
     'li',
-    `Procnt: ${recipe.recipe.totalNutrients.PROCNT}`,
+    `Protein: ${recipe.recipe.totalNutrients.PROCNT.quantity} ${recipe.recipe.totalNutrients.PROCNT.unit}`,
     'nutrition__ul__item'
   );
 
   let salt = createNewElement(
     'li',
-    `Salt: ${recipe.recipe.totalNutrients.NA}`,
+    `Salt: ${recipe.recipe.totalNutrients.NA.quantity} ${recipe.recipe.totalNutrients.NA.unit}`,
     'nutrition__ul__item'
   );
 
   let sugar = createNewElement(
     'li',
-    `Sugar: ${recipe.recipe.totalNutrients.SUGAR}`,
+    `Sugar: ${recipe.recipe.totalNutrients.SUGAR.quantity} ${recipe.recipe.totalNutrients.SUGAR.unit}`,
     'nutrition__ul__item'
   );
 
   let satFat = createNewElement(
     'li',
-    `Saturated fat: ${recipe.recipe.totalNutrients.FASAT}`,
+    `Saturated fat: ${recipe.recipe.totalNutrients.FASAT.quantity} ${recipe.recipe.totalNutrients.FASAT.unit}`,
     'nutrition__ul__item'
   );
 
   nutritionUl.appendChild(fat);
-  nutritionUl.appendChild(chocdf);
-  nutritionUl.appendChild(procnt);
+  nutritionUl.appendChild(carbs);
+  nutritionUl.appendChild(protein);
   nutritionUl.appendChild(salt);
   nutritionUl.appendChild(sugar);
   nutritionUl.appendChild(satFat);
@@ -225,8 +225,24 @@ async function displaySingleRecipe(event) {
   summaryContainer.appendChild(nutritionSection);
 
   let ingredientsContainer = createNewElement('section', '', 'ingredients');
+  let ingredientsTitle = createNewElement(
+    'h2',
+    'Ingredients',
+    'ingredients__title'
+  );
+  let ingredientsUl = createNewElement('ul', '', 'ingredients__ul');
+  let ingredientNodeList = recipe.recipe.ingredients.map((ingredient) => {
+    return createNewElement('li', ingredient.text, 'ingredient__ul__li');
+  });
 
-  article.appendChild(image);
-  article.appendChild(summaryContainer);
-  displayContainer.appendChild(article);
+  ingredientNodeList.forEach((node) => {
+    ingredientsUl.appendChild(node);
+  });
+
+  ingredientsContainer.appendChild(ingredientsTitle);
+  ingredientsContainer.appendChild(ingredientsUl);
+
+  displayContainer.appendChild(image);
+  displayContainer.appendChild(summaryContainer);
+  displayContainer.appendChild(ingredientsContainer);
 }
