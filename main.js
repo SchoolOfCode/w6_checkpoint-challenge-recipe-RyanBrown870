@@ -1,14 +1,31 @@
 import { APP_ID, APP_KEY } from './config/dev.js';
 
+const foodOfTheDay = [
+  'chicken',
+  'beef',
+  'pasta',
+  'pizza',
+  'fish',
+  'roast',
+  'grill',
+  'curry',
+  'asian',
+  'american',
+  'french',
+];
+
+let recipes;
 let foodToSearch = null;
 let button = document.querySelector('#recipe-button');
 button.addEventListener('click', handleSearchClick);
 let input = document.querySelector('#food-input');
 input.addEventListener('change', handleFoodChange);
 
+displaySingleRecipe();
+
 async function handleSearchClick() {
-  const recipe = await fetchRecipe(foodToSearch);
-  buildResultsList(recipe);
+  recipes = await fetchRecipe(foodToSearch);
+  buildResultsList(recipes);
 }
 
 function handleFoodChange() {
@@ -28,15 +45,15 @@ function buildResultsList(recipes) {
   let displayContainer = document.getElementById('display-container');
   displayContainer.innerHTML = '';
   console.log('build results firing');
-  let cardNodeList = recipes.hits.map((recipe) => {
-    return buildRecipeCard(recipe);
+  let cardNodeList = recipes.hits.map((recipe, index) => {
+    return buildRecipeCard(recipe, index);
   });
   cardNodeList.forEach((card) => {
     displayContainer.appendChild(card);
   });
 }
 
-function buildRecipeCard(recipe) {
+function buildRecipeCard(recipe, index) {
   let card = document.createElement('section');
   card.setAttribute('id', recipe.recipe.label);
   card.className = 'card';
@@ -54,7 +71,7 @@ function buildRecipeCard(recipe) {
     recipe.recipe.totalTime,
   ];
 
-  let dataNodes = data.map((item, index) => {
+  let dataNodes = data.map((item) => {
     let node = document.createElement('li');
     let textNode = document.createElement('p');
     switch (index) {
@@ -79,6 +96,7 @@ function buildRecipeCard(recipe) {
   let button = document.createElement('a');
   button.innerText = 'See Recipe';
   button.setAttribute('id', recipe.recipe.uri);
+  button.setAttribute('data-index', index);
   button.className = 'btn';
   button.setAttribute('data-uri', recipe.recipe.uri);
   button.addEventListener('click', displaySingleRecipe);
@@ -91,6 +109,163 @@ function buildRecipeCard(recipe) {
   return card;
 }
 
-function displaySingleRecipe(event) {
-  console.log(event);
+function createNewElement(element, text, className, id) {
+  let newElement = document.createElement(element);
+  if (text) {
+    newElement.innerText = text;
+  }
+  if (className) {
+    newElement.className = className;
+  }
+  if (id) {
+    newElement.setAttribute('id', id);
+  }
+  return newElement;
+}
+
+async function displaySingleRecipe(event) {
+  let displayContainer = document.querySelector('#display-container');
+  displayContainer.innerHTML = '';
+  let recipe;
+  if (event) {
+    recipe = recipes.hits[event.target.dataset.index];
+  } else {
+    // get random recipe
+    console.log('no event');
+    let foodOfTheDayTerm =
+      foodOfTheDay[Math.floor(Math.random() * foodOfTheDay.length)];
+    const requestUrl = `https://api.edamam.com/search?q=${foodOfTheDayTerm}&app_id=${APP_ID}&app_key=${APP_KEY}&from=0&to=30`;
+    const response = await fetch(requestUrl);
+    const jsonResponse = await response.json();
+    recipe =
+      jsonResponse.hits[Math.floor(Math.random() * jsonResponse.hits.length)];
+  }
+
+  let image = document.createElement('img');
+  image.setAttribute('src', recipe.recipe.image);
+  let summaryContainer = document.createElement('section');
+  let title = createNewElement(
+    'h2',
+    recipe.recipe.label,
+    'single-recipe-title'
+  );
+  let ul = createNewElement('ul', '', 'recipe-summary');
+  let servings = createNewElement(
+    'li',
+    `Serves ${recipe.recipe.yield}`,
+    'recipe-summary__item'
+  );
+  let calories = createNewElement(
+    'li',
+    `${recipe.recipe.calories} kcals`,
+    'recipe-summary__item'
+  );
+
+  let time = createNewElement(
+    'li',
+    `${recipe.recipe.totalTime} minutes`,
+    'recipe-summary__item'
+  );
+
+  let source = createNewElement(
+    'li',
+    `Source ${recipe.recipe.source}`,
+    'recipe-summary__item'
+  );
+
+  let dietLabelText = recipe.recipe.dietLabels.join(', ');
+  let dietLabels = createNewElement(
+    'li',
+    dietLabelText,
+    'recipe-summary__item'
+  );
+
+  let mealType = createNewElement(
+    'li',
+    `Meal: ${recipe.recipe.mealType}`,
+    'recipe-summary__item'
+  );
+
+  ul.appendChild(servings);
+  ul.appendChild(calories);
+  ul.appendChild(time);
+  ul.appendChild(source);
+  ul.appendChild(dietLabels);
+  ul.appendChild(mealType);
+
+  let nutritionSection = createNewElement('section', '', 'nutrition');
+  let nutritionTitle = createNewElement('h2', 'Nutrition', 'nutrition__title');
+
+  let nutritionUl = createNewElement('ul', '', 'nutrition__ul');
+  let fat = createNewElement(
+    'li',
+    `Fat: ${recipe.recipe.totalNutrients.FAT.quantity} ${recipe.recipe.totalNutrients.FAT.unit}`,
+    'nutrition__ul__item'
+  );
+
+  let carbs = createNewElement(
+    'li',
+    `Carbs: ${recipe.recipe.totalNutrients.CHOCDF.quantity} ${recipe.recipe.totalNutrients.CHOCDF.unit}`,
+    'nutrition__ul__item'
+  );
+
+  let protein = createNewElement(
+    'li',
+    `Protein: ${recipe.recipe.totalNutrients.PROCNT.quantity} ${recipe.recipe.totalNutrients.PROCNT.unit}`,
+    'nutrition__ul__item'
+  );
+
+  let salt = createNewElement(
+    'li',
+    `Salt: ${recipe.recipe.totalNutrients.NA.quantity} ${recipe.recipe.totalNutrients.NA.unit}`,
+    'nutrition__ul__item'
+  );
+
+  let sugar = createNewElement(
+    'li',
+    `Sugar: ${recipe.recipe.totalNutrients.SUGAR.quantity} ${recipe.recipe.totalNutrients.SUGAR.unit}`,
+    'nutrition__ul__item'
+  );
+
+  let satFat = createNewElement(
+    'li',
+    `Saturated fat: ${recipe.recipe.totalNutrients.FASAT.quantity} ${recipe.recipe.totalNutrients.FASAT.unit}`,
+    'nutrition__ul__item'
+  );
+
+  nutritionUl.appendChild(fat);
+  nutritionUl.appendChild(carbs);
+  nutritionUl.appendChild(protein);
+  nutritionUl.appendChild(salt);
+  nutritionUl.appendChild(sugar);
+  nutritionUl.appendChild(satFat);
+
+  nutritionSection.appendChild(nutritionTitle);
+  nutritionSection.appendChild(nutritionUl);
+
+  summaryContainer.appendChild(title);
+  summaryContainer.appendChild(ul);
+  summaryContainer.appendChild(nutritionSection);
+
+  let ingredientsContainer = createNewElement('section', '', 'ingredients');
+  let ingredientsTitle = createNewElement(
+    'h2',
+    'Ingredients',
+    'ingredients__title'
+  );
+  let ingredientsUl = createNewElement('ul', '', 'ingredients__ul');
+  let ingredientNodeList = recipe.recipe.ingredients.map((ingredient) => {
+    return createNewElement('li', ingredient.text, 'ingredient__ul__li');
+  });
+
+  ingredientNodeList.forEach((node) => {
+    ingredientsUl.appendChild(node);
+  });
+
+  ingredientsContainer.appendChild(ingredientsTitle);
+  ingredientsContainer.appendChild(ingredientsUl);
+
+  displayContainer.appendChild(image);
+  displayContainer.appendChild(summaryContainer);
+  displayContainer.appendChild(ingredientsContainer);
 }
