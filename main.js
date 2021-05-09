@@ -1,11 +1,27 @@
 import { APP_ID, APP_KEY } from './config/dev.js';
 
+const foodOfTheDay = [
+  'chicken',
+  'beef',
+  'pasta',
+  'pizza',
+  'fish',
+  'roast',
+  'grill',
+  'curry',
+  'asian',
+  'american',
+  'french',
+];
+
 let recipes;
 let foodToSearch = null;
 let button = document.querySelector('#recipe-button');
 button.addEventListener('click', handleSearchClick);
 let input = document.querySelector('#food-input');
 input.addEventListener('change', handleFoodChange);
+
+displaySingleRecipe();
 
 async function handleSearchClick() {
   recipes = await fetchRecipe(foodToSearch);
@@ -116,6 +132,13 @@ async function displaySingleRecipe(event) {
   } else {
     // get random recipe
     console.log('no event');
+    let foodOfTheDayTerm =
+      foodOfTheDay[Math.floor(Math.random() * foodOfTheDay.length)];
+    const requestUrl = `https://api.edamam.com/search?q=${foodOfTheDayTerm}&app_id=${APP_ID}&app_key=${APP_KEY}&from=0&to=30`;
+    const response = await fetch(requestUrl);
+    const jsonResponse = await response.json();
+    recipe =
+      jsonResponse.hits[Math.floor(Math.random() * jsonResponse.hits.length)];
   }
 
   let image = document.createElement('img');
