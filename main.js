@@ -44,7 +44,7 @@ async function fetchRecipe(food) {
 function buildResultsList(recipes) {
   let displayContainer = document.getElementById('display-container');
   displayContainer.innerHTML = '';
-  console.log('build results firing');
+
   let cardNodeList = recipes.hits.map((recipe, index) => {
     return buildRecipeCard(recipe, index);
   });
@@ -54,17 +54,15 @@ function buildResultsList(recipes) {
 }
 
 function buildRecipeCard(recipe, index) {
-  let card = document.createElement('section');
-  card.setAttribute('id', recipe.recipe.label);
-  card.className = 'card';
+  let card = createNewElement('section', '', 'card', recipe.recipe.label);
 
-  let title = document.createElement('h2');
-  title.innerText = recipe.recipe.label;
+  let title = createNewElement('h2', recipe.recipe.label);
 
-  let image = document.createElement('img');
+  let image = createNewElement('img');
   image.setAttribute('src', recipe.recipe.image);
 
-  let ul = document.createElement('ul');
+  let ul = createNewElement('ul');
+
   let data = [
     recipe.recipe.yield,
     Math.floor(recipe.recipe.calories),
@@ -93,11 +91,8 @@ function buildRecipeCard(recipe, index) {
     ul.appendChild(node);
   });
 
-  let button = document.createElement('a');
-  button.innerText = 'See Recipe';
-  button.setAttribute('id', recipe.recipe.uri);
+  let button = createNewElement('a', 'See Recipe', 'btn', recipe.recipe.uri);
   button.setAttribute('data-index', index);
-  button.className = 'btn';
   button.setAttribute('data-uri', recipe.recipe.uri);
   button.addEventListener('click', displaySingleRecipe);
 
