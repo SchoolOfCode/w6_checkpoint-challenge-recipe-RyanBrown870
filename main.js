@@ -1,4 +1,4 @@
-import { APP_ID, APP_KEY } from './config/dev.js';
+import { APP_ID, APP_KEY, WEATHER_API_KEY } from './config/dev.js';
 
 const foodOfTheDay = [
   'chicken',
@@ -20,8 +20,53 @@ let button = document.querySelector('#recipe-button');
 button.addEventListener('click', handleSearchClick);
 let input = document.querySelector('#food-input');
 input.addEventListener('change', handleFoodChange);
+let weatherRecipeButton = document.querySelector('#weather-recipe');
+weatherRecipeButton.addEventListener('click', getWeatherRecipe);
 
 displaySingleRecipe();
+
+async function weatherApi() {
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=Birmingham,BIR,GB&appid=${WEATHER_API_KEY}`;
+  const response = await fetch(url);
+  const jsonResponse = await response.json();
+  console.log(jsonResponse);
+  return jsonResponse;
+}
+
+async function getWeatherRecipe() {
+  let weatherData = await weatherApi();
+  let weather = weatherData.weather[0].main;
+  let temperature = weatherData.main.temp_max - 273;
+
+  let niceWeatherTerms = [
+    'bbq',
+    'grill',
+    'salad',
+    'spanish',
+    'paella',
+    'omellete',
+  ];
+
+  let coldWeatherTerms = ['soup', 'roast', 'stew', 'curry', 'tagine'];
+  let query;
+  // If hot and sunny, bbq, salads, paella
+  if (weather == 'Clear' && temperature > 16) {
+    query = 'grill';
+  } else if (temperature > 16 && weather !== 'Rain') {
+    query =
+      niceWeatherTerms[Math.floor(Math.random() * niceWeatherTerms.length)];
+  } else if (temperature > 16 && weather !== 'Clear') {
+    query = 'pizza';
+  } else if (temperature < 16 && weather == 'Rain') {
+    query = 'soup';
+  } else {
+    query =
+      coldWeatherTerms[Math.floor(Math.random() * coldWeatherTerms.length)];
+  }
+
+  recipes = await fetchRecipe(query);
+  buildResultsList(recipes);
+}
 
 async function handleSearchClick() {
   recipes = await fetchRecipe(foodToSearch);
