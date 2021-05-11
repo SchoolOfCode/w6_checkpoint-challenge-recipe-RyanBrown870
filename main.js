@@ -114,7 +114,7 @@ function buildRecipeCard(recipe, index) {
     recipe.recipe.totalTime,
   ];
 
-  let dataNodes = data.map((item) => {
+  let dataNodes = data.map((item, index) => {
     let node = document.createElement('li');
     let textNode = document.createElement('p');
     switch (index) {
