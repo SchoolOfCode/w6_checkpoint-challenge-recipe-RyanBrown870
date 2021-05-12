@@ -101,12 +101,12 @@ function buildResultsList(recipes) {
 function buildRecipeCard(recipe, index) {
   let card = createNewElement('section', '', 'card', recipe.recipe.label);
 
-  let title = createNewElement('h2', recipe.recipe.label);
+  let title = createNewElement('h2', recipe.recipe.label, 'card__title');
 
-  let image = createNewElement('img');
+  let image = createNewElement('img', '', 'card__image');
   image.setAttribute('src', recipe.recipe.image);
 
-  let ul = createNewElement('ul');
+  let ul = createNewElement('ul', '', 'card__ul');
 
   let data = [
     recipe.recipe.yield,
@@ -116,6 +116,7 @@ function buildRecipeCard(recipe, index) {
 
   let dataNodes = data.map((item, index) => {
     let node = document.createElement('li');
+    node.className = 'card__ul__li';
     let textNode = document.createElement('p');
     switch (index) {
       case 0:
@@ -136,7 +137,12 @@ function buildRecipeCard(recipe, index) {
     ul.appendChild(node);
   });
 
-  let button = createNewElement('a', 'See Recipe', 'btn', recipe.recipe.uri);
+  let button = createNewElement(
+    'a',
+    'See Recipe',
+    'btn card__btn',
+    recipe.recipe.uri
+  );
   button.setAttribute('data-index', index);
   button.setAttribute('data-uri', recipe.recipe.uri);
   button.addEventListener('click', displaySingleRecipe);
