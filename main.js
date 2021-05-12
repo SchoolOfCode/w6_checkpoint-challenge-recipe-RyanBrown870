@@ -171,7 +171,6 @@ async function displaySingleRecipe(event) {
     recipe = recipes.hits[event.target.dataset.index];
   } else {
     // get random recipe
-    console.log('no event');
     let foodOfTheDayTerm =
       foodOfTheDay[Math.floor(Math.random() * foodOfTheDay.length)];
     const requestUrl = `https://api.edamam.com/search?q=${foodOfTheDayTerm}&app_id=${APP_ID}&app_key=${APP_KEY}&from=0&to=30`;
@@ -181,9 +180,13 @@ async function displaySingleRecipe(event) {
       jsonResponse.hits[Math.floor(Math.random() * jsonResponse.hits.length)];
   }
 
-  let image = document.createElement('img');
+  let image = createNewElement('img', '', '');
   image.setAttribute('src', recipe.recipe.image);
-  let summaryContainer = document.createElement('section');
+  let summaryContainer = createNewElement(
+    'section',
+    '',
+    'summary-container__information'
+  );
   let title = createNewElement(
     'h2',
     recipe.recipe.label,
@@ -197,7 +200,7 @@ async function displaySingleRecipe(event) {
   );
   let calories = createNewElement(
     'li',
-    `${recipe.recipe.calories} kcals`,
+    `${recipe.recipe.calories.toFixed(1)} kcals`,
     'recipe-summary__item'
   );
 
@@ -239,37 +242,49 @@ async function displaySingleRecipe(event) {
   let nutritionUl = createNewElement('ul', '', 'nutrition__ul');
   let fat = createNewElement(
     'li',
-    `Fat: ${recipe.recipe.totalNutrients.FAT.quantity} ${recipe.recipe.totalNutrients.FAT.unit}`,
+    `Fat: ${recipe.recipe.totalNutrients.FAT.quantity.toFixed(1)} ${
+      recipe.recipe.totalNutrients.FAT.unit
+    }`,
     'nutrition__ul__item'
   );
 
   let carbs = createNewElement(
     'li',
-    `Carbs: ${recipe.recipe.totalNutrients.CHOCDF.quantity} ${recipe.recipe.totalNutrients.CHOCDF.unit}`,
+    `Carbs: ${recipe.recipe.totalNutrients.CHOCDF.quantity.toFixed(1)} ${
+      recipe.recipe.totalNutrients.CHOCDF.unit
+    }`,
     'nutrition__ul__item'
   );
 
   let protein = createNewElement(
     'li',
-    `Protein: ${recipe.recipe.totalNutrients.PROCNT.quantity} ${recipe.recipe.totalNutrients.PROCNT.unit}`,
+    `Protein: ${recipe.recipe.totalNutrients.PROCNT.quantity.toFixed(1)} ${
+      recipe.recipe.totalNutrients.PROCNT.unit
+    }`,
     'nutrition__ul__item'
   );
 
   let salt = createNewElement(
     'li',
-    `Salt: ${recipe.recipe.totalNutrients.NA.quantity} ${recipe.recipe.totalNutrients.NA.unit}`,
+    `Salt: ${recipe.recipe.totalNutrients.NA.quantity.toFixed(1)} ${
+      recipe.recipe.totalNutrients.NA.unit
+    }`,
     'nutrition__ul__item'
   );
 
   let sugar = createNewElement(
     'li',
-    `Sugar: ${recipe.recipe.totalNutrients.SUGAR.quantity} ${recipe.recipe.totalNutrients.SUGAR.unit}`,
+    `Sugar: ${recipe.recipe.totalNutrients.SUGAR.quantity.toFixed(1)} ${
+      recipe.recipe.totalNutrients.SUGAR.unit
+    }`,
     'nutrition__ul__item'
   );
 
   let satFat = createNewElement(
     'li',
-    `Saturated fat: ${recipe.recipe.totalNutrients.FASAT.quantity} ${recipe.recipe.totalNutrients.FASAT.unit}`,
+    `Saturated fat: ${recipe.recipe.totalNutrients.FASAT.quantity.toFixed(1)} ${
+      recipe.recipe.totalNutrients.FASAT.unit
+    }`,
     'nutrition__ul__item'
   );
 
@@ -305,7 +320,12 @@ async function displaySingleRecipe(event) {
   ingredientsContainer.appendChild(ingredientsTitle);
   ingredientsContainer.appendChild(ingredientsUl);
 
-  displayContainer.appendChild(image);
-  displayContainer.appendChild(summaryContainer);
+  let briefContainer = createNewElement('div', '', 'summary-container');
+  let imageContainer = createNewElement('div', '', 'summary-container__image');
+  imageContainer.appendChild(image);
+
+  briefContainer.appendChild(imageContainer);
+  briefContainer.appendChild(summaryContainer);
+  displayContainer.appendChild(briefContainer);
   displayContainer.appendChild(ingredientsContainer);
 }
