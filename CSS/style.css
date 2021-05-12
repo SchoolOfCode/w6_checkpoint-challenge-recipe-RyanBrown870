@@ -124,4 +124,11 @@ h1 {
 
 .nutrition__ul {
   display: flex;
+  justify-content: space-between;
+}
+
+.nutrition__ul__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

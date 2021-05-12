@@ -240,60 +240,84 @@ async function displaySingleRecipe(event) {
   let nutritionTitle = createNewElement('h2', 'Nutrition', 'nutrition__title');
 
   let nutritionUl = createNewElement('ul', '', 'nutrition__ul');
-  let fat = createNewElement(
-    'li',
-    `Fat: ${recipe.recipe.totalNutrients.FAT.quantity.toFixed(1)} ${
+  let fat = createNewElement('li', '', 'nutrition__ul__item');
+  let pFat = createNewElement('p', `Fat`, 'nutrition__ul__item__text');
+  let pFatQuantity = createNewElement(
+    'p',
+    `${recipe.recipe.totalNutrients.FAT.quantity.toFixed(1)} ${
       recipe.recipe.totalNutrients.FAT.unit
     }`,
-    'nutrition__ul__item'
+    'nutrition__ul__item__quantity'
   );
+  fat.appendChild(pFat);
+  fat.appendChild(pFatQuantity);
 
-  let carbs = createNewElement(
-    'li',
-    `Carbs: ${recipe.recipe.totalNutrients.CHOCDF.quantity.toFixed(1)} ${
+  let carbs = createNewElement('li', '', 'nutrition__ul__item');
+  let pCarb = createNewElement('p', `Carbs`, 'nutrition__ul__item__text');
+  let pCarbQuantity = createNewElement(
+    'p',
+    `${recipe.recipe.totalNutrients.CHOCDF.quantity.toFixed(1)} ${
       recipe.recipe.totalNutrients.CHOCDF.unit
     }`,
-    'nutrition__ul__item'
+    'nutrition__ul__item__quantity'
   );
+  carbs.appendChild(pCarb);
+  carbs.appendChild(pCarbQuantity);
 
-  let protein = createNewElement(
-    'li',
-    `Protein: ${recipe.recipe.totalNutrients.PROCNT.quantity.toFixed(1)} ${
+  let protein = createNewElement('li', '', 'nutrition__ul__item');
+  let pProtein = createNewElement('p', `Protein`, 'nutrition__ul__item__text');
+  let pProteinQuantity = createNewElement(
+    'p',
+    `${recipe.recipe.totalNutrients.PROCNT.quantity.toFixed(1)} ${
       recipe.recipe.totalNutrients.PROCNT.unit
     }`,
-    'nutrition__ul__item'
+    'nutrition__ul__item__quantity'
   );
+  protein.appendChild(pProtein);
+  protein.appendChild(pProteinQuantity);
 
-  let salt = createNewElement(
-    'li',
-    `Salt: ${recipe.recipe.totalNutrients.NA.quantity.toFixed(1)} ${
+  let salt = createNewElement('li', '', 'nutrition__ul__item');
+  let pSalt = createNewElement('p', `Salt`, 'nutrition__ul__item__text');
+  let pSaltQuantity = createNewElement(
+    'p',
+    `${recipe.recipe.totalNutrients.NA.quantity.toFixed(1)} ${
       recipe.recipe.totalNutrients.NA.unit
     }`,
-    'nutrition__ul__item'
+    'nutrition__ul__item__quantity'
   );
+  salt.appendChild(pSalt);
+  salt.appendChild(pSaltQuantity);
 
-  let sugar = createNewElement(
-    'li',
-    `Sugar: ${recipe.recipe.totalNutrients.SUGAR.quantity.toFixed(1)} ${
+  let sugar = createNewElement('li', '', 'nutrition__ul__item');
+  let pSugar = createNewElement('p', `Sugar`, 'nutrition__ul__item__text');
+  let pSugarQuantity = createNewElement(
+    'p',
+    `${recipe.recipe.totalNutrients.SUGAR.quantity.toFixed(1)} ${
       recipe.recipe.totalNutrients.SUGAR.unit
     }`,
-    'nutrition__ul__item'
+    'nutrition__ul__item__quantity'
   );
+  sugar.appendChild(pSugar);
+  sugar.appendChild(pSugarQuantity);
 
-  let satFat = createNewElement(
-    'li',
-    `Saturated fat: ${recipe.recipe.totalNutrients.FASAT.quantity.toFixed(1)} ${
+  let satFat = createNewElement('li', '', 'nutrition__ul__item');
+  let pSatFat = createNewElement('p', `Saturates`, 'nutrition__ul__item__text');
+  let pSatFatQuantity = createNewElement(
+    'p',
+    `${recipe.recipe.totalNutrients.FASAT.quantity.toFixed(1)} ${
       recipe.recipe.totalNutrients.FASAT.unit
     }`,
-    'nutrition__ul__item'
+    'nutrition__ul__item__quantity'
   );
+  satFat.appendChild(pSatFat);
+  satFat.appendChild(pSatFatQuantity);
 
   nutritionUl.appendChild(fat);
+  nutritionUl.appendChild(satFat);
   nutritionUl.appendChild(carbs);
   nutritionUl.appendChild(protein);
   nutritionUl.appendChild(salt);
   nutritionUl.appendChild(sugar);
-  nutritionUl.appendChild(satFat);
 
   nutritionSection.appendChild(nutritionTitle);
   nutritionSection.appendChild(nutritionUl);
