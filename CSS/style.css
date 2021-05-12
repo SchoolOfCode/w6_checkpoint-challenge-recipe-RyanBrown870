@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Georgia, serif;
 }
 
 body,
@@ -25,9 +25,13 @@ p {
 .ul__div-li,
 .clear,
 form,
-h1,
 footer {
   padding: 1rem 0rem;
+}
+
+h1,
+h5 {
+  color: dimgray;
 }
 
 h1,
@@ -41,4 +45,128 @@ h6 {
 
 h1 {
   font-size: 4rem;
+  padding-top: 1rem;
+}
+
+#recipe-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header__form {
+  padding: 2rem 0rem;
+}
+
+.btn {
+  line-height: 1.5rem;
+  border-style: solid;
+  border-color: darkslategray;
+  border-width: 1px;
+  background-color: transparent;
+  border-radius: 8px;
+  color: darkslategray;
+  padding: 0.45rem 1.4rem;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition-duration: 200ms;
+}
+
+.btn:hover {
+  cursor: pointer;
+  color: white;
+  background-color: darkslategray;
+}
+
+#display-container {
+  padding: 3rem 0rem;
+}
+
+.summary-container {
+  align-items: center;
+  padding-bottom: 2rem;
+  width: 100%;
+}
+
+.summary-container__image {
+  width: 100%;
+  /* display: flex;
+  justify-content: center; */
+  padding: 0rem 2.5rem;
+}
+
+.summary-container__image > img {
+  width: 100%;
+}
+
+.summary-container__information,
+.ingredients {
+  padding: 0rem 2.5rem;
+}
+
+.single-recipe-title {
+  font-size: 2.5rem;
+  padding: 1rem 0rem 0.8rem 0rem;
+  text-align: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0rem;
+}
+
+.recipe-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.recipe-summary__item {
+  width: 25%;
+  padding: 0.5rem 0rem;
+  text-align: center;
+}
+
+.recipe-summary__item,
+.nutrition__ul__item,
+.ingredient__ul__li {
+  line-height: 1.5;
+}
+
+.nutrition {
+  padding-top: 1rem;
+}
+
+.nutrition__title {
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.nutrition__ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nutrition__ul__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingredients__title {
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.ingredients__ul {
+  border-top: solid 1px grey;
+}
+.ingredient__ul__li {
+  line-height: 1.5;
+  padding: 0.5rem;
+  border-bottom: solid 1px grey;
+  font-size: 1.2rem;
 }

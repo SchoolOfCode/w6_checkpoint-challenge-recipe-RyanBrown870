@@ -8,11 +8,20 @@
     <link rel="stylesheet" href="/CSS/style.css" />
   </head>
   <body>
-    <section id="recipe-section">
-      <h2 class="section-heading">Recipesaurus Rex</h2>
-      <input aria-label="food-input" id="food-input" />
-      <a id="recipe-button">Search</a>
-      <a id="weather-recipe">Go!</a>
+    <section class="header" id="recipe-section">
+      <h1 class="section-heading">Recipesaurus Rex</h1>
+      <h5>Find the food that makes you go ROAR!</h5>
+      <div class="header__form">
+        <input
+          placeholder="Search for a recipe"
+          aria-label="food-input"
+          id="food-input"
+        />
+
+        <a id="recipe-button">Search</a>
+      </div>
+
+      <a class="btn" id="weather-recipe">Not sure? Let the weather decide!</a>
     </section>
     <section id="display-container"></section>
     <script type="module" src="./main.js"></script>
