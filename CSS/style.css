@@ -120,14 +120,21 @@ h1 {
 
 .recipe-summary {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .recipe-summary__item {
-  width: 25%;
-  padding: 0.5rem 0rem;
+  width: 15%;
+  padding: 0.5rem 0.5rem;
   text-align: center;
+}
+
+.recipe-summary__item__text {
+  font-size: 1.5rem;
+}
+
+.recipe-summary__item__heading {
+  color: grey;
 }
 
 .recipe-summary__item,
