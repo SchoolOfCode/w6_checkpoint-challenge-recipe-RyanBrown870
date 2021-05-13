@@ -176,3 +176,28 @@ h1 {
   border-bottom: solid 1px grey;
   font-size: 1.2rem;
 }
+
+.card {
+  padding-bottom: 2rem;
+}
+
+.card:after {
+  content: '';
+  display: block;
+  margin: 0 auto;
+  width: 60%;
+  padding-top: 2rem;
+  border-bottom: 1px solid grey;
+}
+
+.card__title {
+  font-size: 2rem;
+  padding-bottom: 1rem;
+  width: 60%;
+  text-align: center;
+}
+
+.card__ul {
+  padding: 1rem 0rem;
+  font-size: 1.5rem;
+}
