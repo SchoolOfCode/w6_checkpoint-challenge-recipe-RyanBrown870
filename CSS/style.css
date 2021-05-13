@@ -120,11 +120,12 @@ h1 {
 
 .recipe-summary {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
 .recipe-summary__item {
-  width: 15%;
+  width: 20%;
   padding: 0.5rem 0.5rem;
   text-align: center;
 }

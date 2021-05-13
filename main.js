@@ -195,58 +195,74 @@ async function displaySingleRecipe(event) {
     'single-recipe-title'
   );
   let ul = createNewElement('ul', '', 'recipe-summary');
+  let pHeading, pText;
 
-  let servings = createNewElement('li', ``, 'recipe-summary__item');
-  let pHeading = createNewElement(
-    'p',
-    'Serves',
-    'recipe-summary__item__heading'
-  );
-  let pText = createNewElement(
-    'p',
-    `${recipe.recipe.yield}`,
-    'recipe-summary__item__text'
-  );
-  servings.append(pHeading, pText);
+  console.log(recipe);
 
-  let calories = createNewElement('li', ``, 'recipe-summary__item');
-  pHeading = createNewElement('p', 'Calories', 'recipe-summary__item__heading');
-  pText = createNewElement(
-    'p',
-    `${Math.round(recipe.recipe.calories)}`,
-    'recipe-summary__item__text'
-  );
-  calories.append(pHeading, pText);
+  if (recipe.recipe.yield) {
+    let servings = createNewElement('li', ``, 'recipe-summary__item');
+    pHeading = createNewElement('p', 'Serves', 'recipe-summary__item__heading');
+    pText = createNewElement(
+      'p',
+      `${recipe.recipe.yield}`,
+      'recipe-summary__item__text'
+    );
+    servings.append(pHeading, pText);
+    ul.appendChild(servings);
+  }
 
-  let time = createNewElement('li', ``, 'recipe-summary__item');
-  pHeading = createNewElement(
-    'p',
-    'Prep time',
-    'recipe-summary__item__heading'
-  );
-  pText = createNewElement(
-    'p',
-    `${recipe.recipe.totalTime} mins`,
-    'recipe-summary__item__text'
-  );
-  time.append(pHeading, pText);
+  if (recipe.recipe.calories) {
+    let calories = createNewElement('li', ``, 'recipe-summary__item');
+    pHeading = createNewElement(
+      'p',
+      'Calories',
+      'recipe-summary__item__heading'
+    );
+    pText = createNewElement(
+      'p',
+      `${Math.round(recipe.recipe.calories)}`,
+      'recipe-summary__item__text'
+    );
+    calories.append(pHeading, pText);
+    ul.appendChild(calories);
+  }
 
-  let source = createNewElement('li', ``, 'recipe-summary__item');
-  pHeading = createNewElement('p', 'Source', 'recipe-summary__item__heading');
-  pText = createNewElement(
-    'p',
-    `${recipe.recipe.source}`,
-    'recipe-summary__item__text'
-  );
-  source.append(pHeading, pText);
+  if (recipe.recipe.totalTime) {
+    let time = createNewElement('li', ``, 'recipe-summary__item');
+    pHeading = createNewElement(
+      'p',
+      'Prep time',
+      'recipe-summary__item__heading'
+    );
+    pText = createNewElement(
+      'p',
+      `${recipe.recipe.totalTime} mins`,
+      'recipe-summary__item__text'
+    );
+    time.append(pHeading, pText);
+    ul.appendChild(time);
+  }
 
-  let dietLabelText = recipe.recipe.dietLabels.join(', ');
-  let dietLabels = createNewElement('li', '', 'recipe-summary__item');
-  pHeading = createNewElement('p', 'Diet', 'recipe-summary__item__heading');
-  pText = createNewElement('p', dietLabelText, 'recipe-summary__item__text');
-  dietLabels.append(pHeading, pText);
+  if (recipe.recipe.source) {
+    let source = createNewElement('li', ``, 'recipe-summary__item');
+    pHeading = createNewElement('p', 'Source', 'recipe-summary__item__heading');
+    pText = createNewElement(
+      'p',
+      `${recipe.recipe.source}`,
+      'recipe-summary__item__text'
+    );
+    source.append(pHeading, pText);
+    ul.appendChild(source);
+  }
 
-  ul.append(servings, calories, time, source, dietLabels);
+  if (recipe.recipe.dietLabels.length) {
+    let dietLabelText = recipe.recipe.dietLabels[0];
+    let dietLabels = createNewElement('li', '', 'recipe-summary__item');
+    pHeading = createNewElement('p', 'Diet', 'recipe-summary__item__heading');
+    pText = createNewElement('p', dietLabelText, 'recipe-summary__item__text');
+    dietLabels.append(pHeading, pText);
+    ul.appendChild(dietLabels);
+  }
 
   let nutritionSection = createNewElement('section', '', 'nutrition');
   let nutritionTitle = createNewElement('h2', 'Nutrition', 'nutrition__title');
