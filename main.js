@@ -101,12 +101,12 @@ function buildResultsList(recipes) {
 function buildRecipeCard(recipe, index) {
   let card = createNewElement('section', '', 'card', recipe.recipe.label);
 
-  let title = createNewElement('h2', recipe.recipe.label);
+  let title = createNewElement('h2', recipe.recipe.label, 'card__title');
 
-  let image = createNewElement('img');
+  let image = createNewElement('img', '', 'card__image');
   image.setAttribute('src', recipe.recipe.image);
 
-  let ul = createNewElement('ul');
+  let ul = createNewElement('ul', '', 'card__ul');
 
   let data = [
     recipe.recipe.yield,
@@ -116,6 +116,7 @@ function buildRecipeCard(recipe, index) {
 
   let dataNodes = data.map((item, index) => {
     let node = document.createElement('li');
+    node.className = 'card__ul__li';
     let textNode = document.createElement('p');
     switch (index) {
       case 0:
@@ -136,16 +137,17 @@ function buildRecipeCard(recipe, index) {
     ul.appendChild(node);
   });
 
-  let button = createNewElement('a', 'See Recipe', 'btn', recipe.recipe.uri);
+  let button = createNewElement(
+    'a',
+    'See Recipe',
+    'btn card__btn',
+    recipe.recipe.uri
+  );
   button.setAttribute('data-index', index);
   button.setAttribute('data-uri', recipe.recipe.uri);
   button.addEventListener('click', displaySingleRecipe);
 
-  card.appendChild(title);
-  card.appendChild(image);
-  card.appendChild(ul);
-  card.appendChild(button);
-
+  card.append(title, image, ul, button);
   return card;
 }
 
@@ -193,138 +195,147 @@ async function displaySingleRecipe(event) {
     'single-recipe-title'
   );
   let ul = createNewElement('ul', '', 'recipe-summary');
-  let servings = createNewElement(
-    'li',
-    `Serves ${recipe.recipe.yield}`,
-    'recipe-summary__item'
-  );
-  let calories = createNewElement(
-    'li',
-    `${recipe.recipe.calories.toFixed(1)} kcals`,
-    'recipe-summary__item'
-  );
+  let pHeading, pText;
 
-  let time = createNewElement(
-    'li',
-    `${recipe.recipe.totalTime} minutes`,
-    'recipe-summary__item'
-  );
+  console.log(recipe);
 
-  let source = createNewElement(
-    'li',
-    `Source ${recipe.recipe.source}`,
-    'recipe-summary__item'
-  );
+  if (recipe.recipe.yield) {
+    let servings = createNewElement('li', ``, 'recipe-summary__item');
+    pHeading = createNewElement('p', 'Serves', 'recipe-summary__item__heading');
+    pText = createNewElement(
+      'p',
+      `${recipe.recipe.yield}`,
+      'recipe-summary__item__text'
+    );
+    servings.append(pHeading, pText);
+    ul.appendChild(servings);
+  }
 
-  let dietLabelText = recipe.recipe.dietLabels.join(', ');
-  let dietLabels = createNewElement(
-    'li',
-    dietLabelText,
-    'recipe-summary__item'
-  );
+  if (recipe.recipe.calories) {
+    let calories = createNewElement('li', ``, 'recipe-summary__item');
+    pHeading = createNewElement(
+      'p',
+      'Calories',
+      'recipe-summary__item__heading'
+    );
+    pText = createNewElement(
+      'p',
+      `${Math.round(recipe.recipe.calories)}`,
+      'recipe-summary__item__text'
+    );
+    calories.append(pHeading, pText);
+    ul.appendChild(calories);
+  }
 
-  let mealType = createNewElement(
-    'li',
-    `Meal: ${recipe.recipe.mealType}`,
-    'recipe-summary__item'
-  );
+  if (recipe.recipe.totalTime) {
+    let time = createNewElement('li', ``, 'recipe-summary__item');
+    pHeading = createNewElement(
+      'p',
+      'Prep time',
+      'recipe-summary__item__heading'
+    );
+    pText = createNewElement(
+      'p',
+      `${recipe.recipe.totalTime} mins`,
+      'recipe-summary__item__text'
+    );
+    time.append(pHeading, pText);
+    ul.appendChild(time);
+  }
 
-  ul.appendChild(servings);
-  ul.appendChild(calories);
-  ul.appendChild(time);
-  ul.appendChild(source);
-  ul.appendChild(dietLabels);
-  ul.appendChild(mealType);
+  if (recipe.recipe.source) {
+    let source = createNewElement('li', ``, 'recipe-summary__item');
+    pHeading = createNewElement('p', 'Source', 'recipe-summary__item__heading');
+    pText = createNewElement(
+      'p',
+      `${recipe.recipe.source}`,
+      'recipe-summary__item__text'
+    );
+    source.append(pHeading, pText);
+    ul.appendChild(source);
+  }
+
+  if (recipe.recipe.dietLabels.length) {
+    let dietLabelText = recipe.recipe.dietLabels[0];
+    let dietLabels = createNewElement('li', '', 'recipe-summary__item');
+    pHeading = createNewElement('p', 'Diet', 'recipe-summary__item__heading');
+    pText = createNewElement('p', dietLabelText, 'recipe-summary__item__text');
+    dietLabels.append(pHeading, pText);
+    ul.appendChild(dietLabels);
+  }
 
   let nutritionSection = createNewElement('section', '', 'nutrition');
   let nutritionTitle = createNewElement('h2', 'Nutrition', 'nutrition__title');
 
   let nutritionUl = createNewElement('ul', '', 'nutrition__ul');
   let fat = createNewElement('li', '', 'nutrition__ul__item');
-  let pFat = createNewElement('p', `Fat`, 'nutrition__ul__item__text');
+  let pFat = createNewElement('p', `fat`, 'nutrition__ul__item__text');
   let pFatQuantity = createNewElement(
     'p',
-    `${recipe.recipe.totalNutrients.FAT.quantity.toFixed(1)} ${
+    `${Math.round(recipe.recipe.totalNutrients.FAT.quantity)} ${
       recipe.recipe.totalNutrients.FAT.unit
     }`,
     'nutrition__ul__item__quantity'
   );
-  fat.appendChild(pFat);
-  fat.appendChild(pFatQuantity);
+  fat.append(pFat, pFatQuantity);
 
   let carbs = createNewElement('li', '', 'nutrition__ul__item');
-  let pCarb = createNewElement('p', `Carbs`, 'nutrition__ul__item__text');
+  let pCarb = createNewElement('p', `carbs`, 'nutrition__ul__item__text');
   let pCarbQuantity = createNewElement(
     'p',
-    `${recipe.recipe.totalNutrients.CHOCDF.quantity.toFixed(1)} ${
+    `${Math.round(recipe.recipe.totalNutrients.CHOCDF.quantity)} ${
       recipe.recipe.totalNutrients.CHOCDF.unit
     }`,
     'nutrition__ul__item__quantity'
   );
-  carbs.appendChild(pCarb);
-  carbs.appendChild(pCarbQuantity);
+  carbs.append(pCarb, pCarbQuantity);
 
   let protein = createNewElement('li', '', 'nutrition__ul__item');
-  let pProtein = createNewElement('p', `Protein`, 'nutrition__ul__item__text');
+  let pProtein = createNewElement('p', `protein`, 'nutrition__ul__item__text');
   let pProteinQuantity = createNewElement(
     'p',
-    `${recipe.recipe.totalNutrients.PROCNT.quantity.toFixed(1)} ${
+    `${Math.round(recipe.recipe.totalNutrients.PROCNT.quantity)} ${
       recipe.recipe.totalNutrients.PROCNT.unit
     }`,
     'nutrition__ul__item__quantity'
   );
-  protein.appendChild(pProtein);
-  protein.appendChild(pProteinQuantity);
+  protein.append(pProtein, pProteinQuantity);
 
   let salt = createNewElement('li', '', 'nutrition__ul__item');
-  let pSalt = createNewElement('p', `Salt`, 'nutrition__ul__item__text');
+  let pSalt = createNewElement('p', `salt`, 'nutrition__ul__item__text');
   let pSaltQuantity = createNewElement(
     'p',
-    `${recipe.recipe.totalNutrients.NA.quantity.toFixed(1)} ${
+    `${Math.round(recipe.recipe.totalNutrients.NA.quantity)} ${
       recipe.recipe.totalNutrients.NA.unit
     }`,
     'nutrition__ul__item__quantity'
   );
-  salt.appendChild(pSalt);
-  salt.appendChild(pSaltQuantity);
+  salt.append(pSalt, pSaltQuantity);
 
   let sugar = createNewElement('li', '', 'nutrition__ul__item');
-  let pSugar = createNewElement('p', `Sugar`, 'nutrition__ul__item__text');
+  let pSugar = createNewElement('p', `sugar`, 'nutrition__ul__item__text');
   let pSugarQuantity = createNewElement(
     'p',
-    `${recipe.recipe.totalNutrients.SUGAR.quantity.toFixed(1)} ${
+    `${Math.round(recipe.recipe.totalNutrients.SUGAR.quantity)} ${
       recipe.recipe.totalNutrients.SUGAR.unit
     }`,
     'nutrition__ul__item__quantity'
   );
-  sugar.appendChild(pSugar);
-  sugar.appendChild(pSugarQuantity);
+  sugar.append(pSugar, pSugarQuantity);
 
   let satFat = createNewElement('li', '', 'nutrition__ul__item');
-  let pSatFat = createNewElement('p', `Saturates`, 'nutrition__ul__item__text');
+  let pSatFat = createNewElement('p', `saturates`, 'nutrition__ul__item__text');
   let pSatFatQuantity = createNewElement(
     'p',
-    `${recipe.recipe.totalNutrients.FASAT.quantity.toFixed(1)} ${
+    `${Math.round(recipe.recipe.totalNutrients.FASAT.quantity)} ${
       recipe.recipe.totalNutrients.FASAT.unit
     }`,
     'nutrition__ul__item__quantity'
   );
-  satFat.appendChild(pSatFat);
-  satFat.appendChild(pSatFatQuantity);
-
-  nutritionUl.appendChild(fat);
-  nutritionUl.appendChild(satFat);
-  nutritionUl.appendChild(carbs);
-  nutritionUl.appendChild(protein);
-  nutritionUl.appendChild(salt);
-  nutritionUl.appendChild(sugar);
-
-  nutritionSection.appendChild(nutritionTitle);
-  nutritionSection.appendChild(nutritionUl);
-
-  summaryContainer.appendChild(title);
-  summaryContainer.appendChild(ul);
-  summaryContainer.appendChild(nutritionSection);
+  satFat.append(pSatFat, pSatFatQuantity);
+  nutritionUl.append(fat, satFat, carbs, protein, salt, sugar);
+  nutritionSection.append(nutritionTitle, nutritionUl);
+  summaryContainer.append(title, ul, nutritionSection);
 
   let ingredientsContainer = createNewElement('section', '', 'ingredients');
   let ingredientsTitle = createNewElement(
@@ -341,15 +352,12 @@ async function displaySingleRecipe(event) {
     ingredientsUl.appendChild(node);
   });
 
-  ingredientsContainer.appendChild(ingredientsTitle);
-  ingredientsContainer.appendChild(ingredientsUl);
+  ingredientsContainer.append(ingredientsTitle, ingredientsUl);
 
   let briefContainer = createNewElement('div', '', 'summary-container');
   let imageContainer = createNewElement('div', '', 'summary-container__image');
   imageContainer.appendChild(image);
 
-  briefContainer.appendChild(imageContainer);
-  briefContainer.appendChild(summaryContainer);
-  displayContainer.appendChild(briefContainer);
-  displayContainer.appendChild(ingredientsContainer);
+  briefContainer.append(imageContainer, summaryContainer);
+  displayContainer.append(briefContainer, ingredientsContainer);
 }
