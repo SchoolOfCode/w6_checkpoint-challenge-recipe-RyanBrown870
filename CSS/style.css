@@ -232,3 +232,86 @@ h1 {
   padding: 1rem 0rem;
   font-size: 1.5rem;
 }
+
+@media (min-width: 768px) {
+  #display-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .summary-container {
+    display: flex;
+    align-items: stretch;
+    width: 90%;
+  }
+
+  .summary-container__image {
+    width: 70%;
+  }
+
+  .nutrition__title {
+    text-align: center;
+    padding-bottom: 1.5rem;
+  }
+
+  .nutrition__ul__item__quantity {
+    text-align: center;
+  }
+
+  .summary-container__information {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem 1rem 1.5rem 0rem;
+  }
+
+  .ingredients {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1200px) {
+  #food-input {
+    width: 40%;
+    height: 30px;
+  }
+
+  .summary-container {
+    display: flex;
+    align-items: stretch;
+    width: 70%;
+  }
+
+  .summary-container__image {
+    width: 60%;
+  }
+
+  .recipe-summary__item__heading {
+    font-size: 1.3rem;
+  }
+
+  .recipe-summary__item__text {
+    font-size: 1.8rem;
+  }
+
+  .nutrition__title {
+    font-size: 2rem;
+  }
+
+  .nutrition__ul__item {
+    font-size: 1.1rem;
+  }
+
+  .ingredients {
+    width: 70%;
+  }
+
+  .ingredients__title {
+    font-size: 2rem;
+  }
+
+  .ingredient__ul__li {
+    font-size: 1.5rem;
+  }
+}
