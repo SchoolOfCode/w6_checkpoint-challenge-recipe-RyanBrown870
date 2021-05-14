@@ -49,6 +49,10 @@ h1 {
   text-align: center;
 }
 
+h5 {
+  display: inline-block;
+}
+
 #recipe-section {
   display: flex;
   flex-direction: column;
@@ -240,6 +244,12 @@ h1 {
     align-items: center;
   }
 
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .summary-container {
     display: flex;
     align-items: stretch;
@@ -248,6 +258,10 @@ h1 {
 
   .summary-container__image {
     width: 70%;
+  }
+
+  .single-recipe-title {
+    padding-top: 0rem;
   }
 
   .nutrition__title {
@@ -278,13 +292,13 @@ h1 {
     content: '';
     display: block;
     margin: 0 auto;
-    width: 80%;
+    width: 100%;
     padding-top: 2rem;
     border-bottom: 1px solid grey;
   }
 
   .card__image {
-    width: 70%;
+    width: 100%;
   }
 }
 
@@ -342,6 +356,7 @@ h1 {
   .card-container {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
     justify-content: center;
     align-items: stretch;
   }
