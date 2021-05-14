@@ -89,13 +89,15 @@ async function fetchRecipe(food) {
 function buildResultsList(recipes) {
   let displayContainer = document.getElementById('display-container');
   displayContainer.innerHTML = '';
+  let displayContainerChild = createNewElement('div', '', 'card-container');
 
   let cardNodeList = recipes.hits.map((recipe, index) => {
     return buildRecipeCard(recipe, index);
   });
   cardNodeList.forEach((card) => {
-    displayContainer.appendChild(card);
+    displayContainerChild.appendChild(card);
   });
+  displayContainer.appendChild(displayContainerChild);
 }
 
 function buildRecipeCard(recipe, index) {
